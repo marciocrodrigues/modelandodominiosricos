@@ -76,6 +76,20 @@ namespace NerdStore.Catalogo.Application.Services
             return _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterPorId(id));
         }
 
+        public async Task AdicionarCategoria(CategoriaViewModel categoriaViewModel)
+        {
+            var categoria = _mapper.Map<Categoria>(categoriaViewModel);
+            _produtoRepository.Adicionar(categoria);
+            await _produtoRepository.UnitOfWork.Commit();
+        }
+
+        public async Task AtualizarCategoria(CategoriaViewModel categoriaViewModel)
+        {
+            var categoria = _mapper.Map<Categoria>(categoriaViewModel);
+            _produtoRepository.Atualizar(categoria);
+            await _produtoRepository.UnitOfWork.Commit();
+        }
+
         public void Dispose()
         {
             _produtoRepository?.Dispose();

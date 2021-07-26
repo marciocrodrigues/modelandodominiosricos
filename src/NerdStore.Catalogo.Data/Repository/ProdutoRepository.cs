@@ -56,12 +56,14 @@ namespace NerdStore.Catalogo.Data.Repository
 
         public async Task<Produto> ObterPorId(Guid id)
         {
-            return await _context.Produtos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+            return await _context.Produtos.AsNoTracking().Include(p => p.Categoria).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<Produto>> ObterTodos()
         {
-            return await _context.Produtos.AsNoTracking().ToListAsync();
+            var produtos = await _context.Produtos.AsNoTracking().Include(p => p.Categoria).ToListAsync();
+
+            return produtos;
         }
     }
 }

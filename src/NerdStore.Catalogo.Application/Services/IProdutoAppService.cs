@@ -17,5 +17,8 @@ namespace NerdStore.Catalogo.Application.Services
 
         Task<ProdutoViewModel> DebitarEstqoue(Guid id, int quantidade);
         Task<ProdutoViewModel> ReporEstoque(Guid id, int quantidade);
+
+        Task AdicionarCategoria(CategoriaViewModel categoriaViewModel);
+        Task AtualizarCategoria(CategoriaViewModel categoriaViewModel);
     }
 }

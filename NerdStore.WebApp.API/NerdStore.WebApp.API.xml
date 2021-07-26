@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NerdStore.WebApp.API</name>
+    </assembly>
+    <members>
+        <member name="M:NerdStore.WebApp.API.Controllers.Admin.AdminProdutosController.NovoProduto(NerdStore.Catalogo.Application.ViewModels.CategoriaViewModel)">
+            <summary>
+            Rota para cadastrar categorias
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NerdStore.WebApp.API.Controllers.Admin.AdminProdutosController.NovoProduto(NerdStore.Catalogo.Application.ViewModels.ProdutoViewModel)">
+            <summary>
+            Rota para cadastrar produto
+            </summary>
+            <param name="produtoViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NerdStore.WebApp.API.Controllers.Admin.AdminProdutosController.AtualizarEstoque(System.Guid)">
+            <summary>
+            Rota para buscar produto pelo identificador
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NerdStore.WebApp.API.Controllers.Admin.AdminProdutosController.AtualizarProduto(System.Guid,NerdStore.Catalogo.Application.ViewModels.ProdutoViewModel)">
+            <summary>
+            Rota para atualizar produto
+            </summary>
+            <param name="id"></param>
+            <param name="produtoViewModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NerdStore.WebApp.API.Controllers.Admin.AdminProdutosController.AtualiarProduto(System.Guid,NerdStore.Catalogo.Application.ViewModels.CategoriaViewModel)">
+            <summary>
+            Rota pra editar categorias
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NerdStore.WebApp.API.Controllers.Admin.AdminProdutosController.AtualizarEstoque(System.Guid,System.Int32)">
+            <summary>
+            Rota para atualizar o estoque
+            Passar quantidade negativa para retirar do estoque
+            </summary>
+            <param name="id"></param>
+            <param name="quantidade"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NerdStore.WebApp.API.Controllers.VitrineController.GetTodos">
+            <summary>
+            Rota para listar todos os produtos
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NerdStore.WebApp.API.Controllers.VitrineController.ProdutoDetalhe(System.Guid)">
+            <summary>
+            Rota para buscar produto pelo identificador
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
