@@ -81,7 +81,7 @@ namespace NerdStore.WebApp.API.Controllers.Admin
         public async Task<IActionResult> AtualizarProduto(Guid id, ProdutoViewModel produtoViewModel)
         {
             var produto = await _produtoAppService.ObterPorId(id);
-            produtoViewModel.QuantidateEstoque = produto.QuantidateEstoque;
+            produtoViewModel.QuantidadeEstoque = produto.QuantidadeEstoque;
 
             ModelState.Remove("QuantidadeEstoque");
             

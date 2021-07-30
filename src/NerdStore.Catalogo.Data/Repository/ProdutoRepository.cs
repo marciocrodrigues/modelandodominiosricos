@@ -56,7 +56,8 @@ namespace NerdStore.Catalogo.Data.Repository
 
         public async Task<Produto> ObterPorId(Guid id)
         {
-            return await _context.Produtos.AsNoTracking().Include(p => p.Categoria).FirstOrDefaultAsync(p => p.Id == id);
+            var produto = await _context.Produtos.AsNoTracking().Include(p => p.Categoria).FirstOrDefaultAsync(p => p.Id == id);
+            return produto;
         }
 
         public async Task<IEnumerable<Produto>> ObterTodos()
