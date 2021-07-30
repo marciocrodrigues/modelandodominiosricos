@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NerdStore.Catalogo.Application.Services;
-using NerdStore.Core.Bus;
+using NerdStore.Core.Mediator;
+using NerdStore.Core.Messages.CommonMessages.Notifications;
 using NerdStore.Vendas.Application.Commands;
+using NerdStore.WebApp.API.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace NerdStore.WebApp.API.Controllers
@@ -17,8 +17,11 @@ namespace NerdStore.WebApp.API.Controllers
         private readonly IProdutoAppService _produtoAppService;
         private readonly IMediatrHandler _mediatrHandler;
 
-        public CarrinhoController(IProdutoAppService produtoAppService,
-                                  IMediatrHandler mediatrHandler)
+        public CarrinhoController(INotificationHandler<DomainNotification> notifications,
+                                  IProdutoAppService produtoAppService,
+                                  IMediatrHandler mediatrHandler,
+                                  ErrorsViewModel errors)
+            : base(notifications, mediatrHandler, errors)
         {
             _produtoAppService = produtoAppService;
             _mediatrHandler = mediatrHandler;
@@ -34,16 +37,19 @@ namespace NerdStore.WebApp.API.Controllers
 
             if (produto.QuantidadeEstoque < quantidade)
             {
-                return RedirectToAction("ProdutoDetalhe", "Vitrine", new { id });
+                return BadRequest($"Produto com {produto.QuantidadeEstoque} em estoque");
             }
 
-            var command = new AdicionarItemPedidoCommand( ClienteId, produto.Id, produto.Nome, quantidade, produto.Valor);
+            var command = new AdicionarItemPedidoCommand(ClienteId, produto.Id, produto.Nome, quantidade, produto.Valor);
             await _mediatrHandler.EnviarComando(command);
 
             // se tudo deu certo?
+            if (OperacaoValida())
+            {
+                return Ok("Pedido criado com sucesso");
+            }
 
-            // caso der erro
-            return RedirectToAction("ProdutoDetalhe", "Vitrine", new { id });
+            return BadRequest(await RetornarErros());
         }
     }
 }
