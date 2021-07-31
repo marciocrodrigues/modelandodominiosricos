@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NerdStore.Catalogo.Domain;
 using NerdStore.Core.Data;
+using NerdStore.Core.Messages;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +24,11 @@ namespace NerdStore.Catalogo.Data
                 e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)");
 
+            // Ignora a classe Event, já que ela está dentro da classe Entity
+            modelBuilder.Ignore<Event>();
+
+            // Adiciona todos os mappings do tipo IEntityTypeConfiguration que percentence dentro do
+            // assembly ao qual pertence o CatalogoContext
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogoContext).Assembly);
         }
 

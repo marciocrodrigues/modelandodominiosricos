@@ -49,7 +49,9 @@ namespace NerdStore.WebApp.API.Controllers
                 return Ok("Pedido criado com sucesso");
             }
 
-            return BadRequest(await RetornarErros());
+            var erros = await RetornarErros();
+
+            return BadRequest(erros);
         }
     }
 }
