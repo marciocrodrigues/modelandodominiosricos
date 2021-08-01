@@ -48,6 +48,21 @@
             <param name="quantidade"></param>
             <returns></returns>
         </member>
+        <member name="M:NerdStore.WebApp.API.Controllers.CarrinhoController.AdicionarItem(System.Guid,System.Int32)">
+            <summary>
+            Rota para realizar compra
+            </summary>
+            <param name="id"></param>
+            <param name="quantidade"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NerdStore.WebApp.API.Controllers.CarrinhoController.ObterMeuCarrinho(System.Guid)">
+            <summary>
+            Rota para buscar carrinho pelo identificador do cliente
+            </summary>
+            <param name="clienteId"></param>
+            <returns></returns>
+        </member>
         <member name="M:NerdStore.WebApp.API.Controllers.VitrineController.GetTodos">
             <summary>
             Rota para listar todos os produtos
