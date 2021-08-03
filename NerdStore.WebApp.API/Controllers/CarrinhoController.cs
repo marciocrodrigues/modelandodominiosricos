@@ -81,71 +81,77 @@ namespace NerdStore.WebApp.API.Controllers
             return Ok(await _pedidoQueries.ObterCarrinhoCliente(clienteId));
         }
 
-        ///// <summary>
-        ///// Rota para remover carrinho
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //[Route("remover-carrinho")]
-        //public async Task<IActionResult> RemoverItem(Guid id)
-        //{
-        //    var produto = await _produtoAppService.ObterPorId(id);
-        //    if (produto == null) return BadRequest("Produto não encontrado no carrinho");
+        /// <summary>
+        /// Rota para remover carrinho
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("remover-carrinho")]
+        public async Task<IActionResult> RemoverItem(Guid id)
+        {
+            var produto = await _produtoAppService.ObterPorId(id);
+            if (produto == null) return BadRequest("Produto não encontrado no carrinho");
 
-        //    var command = new RemoverItemPedidoCommand(ClienteId, id);
-        //    await _mediatrHandler.EnviarComando(command);
+            var command = new RemoverItemPedidoCommand(ClienteId, id);
+            await _mediatrHandler.EnviarComando(command);
 
-        //    if (OperacaoValida())
-        //    {
-        //        return Ok("Carrinho removido com sucesso");
-        //    }
+            if (OperacaoValida())
+            {
+                return Ok("Carrinho removido com sucesso");
+            }
 
-        //    return BadRequest("Erro ao tentar remover carrinho");
-        //}
+            var erros = await RetornarErros();
 
-        ///// <summary>
-        ///// Rota para atualizar item do carrinho
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <param name="quantidade"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //[Route("atualizar-item")]
-        //public async Task<IActionResult> AtualizarItem(Guid id, int quantidade)
-        //{
-        //    var produto = await _produtoAppService.ObterPorId(id);
-        //    if (produto == null) return BadRequest("Produto não encontrado");
+            return BadRequest(erros);
+        }
 
-        //    var command = new AtualizarItemPedidoCommand(ClienteId, id, quantidade);
-        //    await _mediatrHandler.EnviarComando(command);
+        /// <summary>
+        /// Rota para atualizar item do carrinho
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="quantidade"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("atualizar-item")]
+        public async Task<IActionResult> AtualizarItem(Guid id, int quantidade)
+        {
+            var produto = await _produtoAppService.ObterPorId(id);
+            if (produto == null) return BadRequest("Produto não encontrado");
 
-        //    if (OperacaoValida())
-        //    {
-        //        return Ok("Item atualizado com sucesso");
-        //    }
+            var command = new AtualizarItemPedidoCommand(ClienteId, id, quantidade);
+            await _mediatrHandler.EnviarComando(command);
 
-        //    return BadRequest("Erro ao tentar atualizar carrinho");
-        //}
+            if (OperacaoValida())
+            {
+                return Ok("Item atualizado com sucesso");
+            }
 
-        ///// <summary>
-        ///// Rota para aplicar voucher
-        ///// </summary>
-        ///// <param name="voucherCodigo"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //[Route("aplicar-voucher")]
-        //public async Task<IActionResult> AplicarVoucher(string voucherCodigo)
-        //{
-        //    var command = new AplicarVoucherPedidoCommand(ClienteId, voucherCodigo);
-        //    await _mediatrHandler.EnviarComando(command);
+            var erros = await RetornarErros();
 
-        //    if (OperacaoValida())
-        //    {
-        //        return Ok("Voucher aplicado com sucesso");
-        //    }
+            return BadRequest(erros);
+        }
 
-        //    return BadRequest("Erro ao tentar aplicar voucher");
-        //}
+        /// <summary>
+        /// Rota para aplicar voucher
+        /// </summary>
+        /// <param name="voucherCodigo"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("aplicar-voucher")]
+        public async Task<IActionResult> AplicarVoucher(string voucherCodigo)
+        {
+            var command = new AplicarVoucherPedidoCommand(ClienteId, voucherCodigo);
+            await _mediatrHandler.EnviarComando(command);
+
+            if (OperacaoValida())
+            {
+                return Ok("Voucher aplicado com sucesso");
+            }
+
+            var erros = await RetornarErros();
+
+            return BadRequest(erros);
+        }
     }
 }
