@@ -9,6 +9,7 @@ using NerdStore.Vendas.Application.Queries.ViewModels;
 using NerdStore.WebApp.API.Extensions;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NerdStore.WebApp.API.Controllers
@@ -86,12 +87,15 @@ namespace NerdStore.WebApp.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [SwaggerResponse(statusCode: 200, description: "Carrinho removido com sucesso")]
+        [SwaggerResponse(statusCode: 404, description: "Produto não encontrado no carrinho")]
+        [SwaggerResponse(statusCode: 400, type: typeof(List<Errors>))]
         [HttpPost]
         [Route("remover-carrinho")]
         public async Task<IActionResult> RemoverItem(Guid id)
         {
             var produto = await _produtoAppService.ObterPorId(id);
-            if (produto == null) return BadRequest("Produto não encontrado no carrinho");
+            if (produto == null) return NotFound("Produto não encontrado no carrinho");
 
             var command = new RemoverItemPedidoCommand(ClienteId, id);
             await _mediatrHandler.EnviarComando(command);
@@ -112,12 +116,15 @@ namespace NerdStore.WebApp.API.Controllers
         /// <param name="id"></param>
         /// <param name="quantidade"></param>
         /// <returns></returns>
+        [SwaggerResponse(statusCode: 200, description: "Item atualizado com sucesso")]
+        [SwaggerResponse(statusCode: 404, description: "Produto não encontrado")]
+        [SwaggerResponse(statusCode: 400, type: typeof(List<Errors>))]
         [HttpPost]
         [Route("atualizar-item")]
         public async Task<IActionResult> AtualizarItem(Guid id, int quantidade)
         {
             var produto = await _produtoAppService.ObterPorId(id);
-            if (produto == null) return BadRequest("Produto não encontrado");
+            if (produto == null) return NotFound("Produto não encontrado");
 
             var command = new AtualizarItemPedidoCommand(ClienteId, id, quantidade);
             await _mediatrHandler.EnviarComando(command);
@@ -137,6 +144,8 @@ namespace NerdStore.WebApp.API.Controllers
         /// </summary>
         /// <param name="voucherCodigo"></param>
         /// <returns></returns>
+        [SwaggerResponse(statusCode: 200, description: "Voucher aplicado com sucesso")]
+        [SwaggerResponse(statusCode: 400, type: typeof(List<Errors>))]
         [HttpPost]
         [Route("aplicar-voucher")]
         public async Task<IActionResult> AplicarVoucher(string voucherCodigo)
