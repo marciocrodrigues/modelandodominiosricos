@@ -85,6 +85,12 @@
             <param name="voucherCodigo"></param>
             <returns></returns>
         </member>
+        <member name="M:NerdStore.WebApp.API.Controllers.CarrinhoController.ResumoDaCompra">
+            <summary>
+            Rota para trazer o resumo da compra
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:NerdStore.WebApp.API.Controllers.VitrineController.GetTodos">
             <summary>
             Rota para listar todos os produtos

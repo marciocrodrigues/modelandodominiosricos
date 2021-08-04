@@ -162,5 +162,39 @@ namespace NerdStore.WebApp.API.Controllers
 
             return BadRequest(erros);
         }
+
+        /// <summary>
+        /// Rota para trazer o resumo da compra
+        /// </summary>
+        /// <returns></returns>
+        [SwaggerResponse(statusCode: 200, type: typeof(CarrinhoViewModel))]
+        [HttpGet]
+        [Route("resumo-da-compra")]
+        public async Task<IActionResult> ResumoDaCompra()
+        {
+            return Ok(await _pedidoQueries.ObterCarrinhoCliente(ClienteId));
+        }
+
+        [HttpPost]
+        [Route("iniciar-pedido")]
+        public async Task<IActionResult> IniciarPedido(CarrinhoViewModel carrinhoViewModel)
+        {
+            var carrinho = await _pedidoQueries.ObterCarrinhoCliente(ClienteId);
+
+            var command = new IniciarPedidoCommand(carrinho.PedidoId, ClienteId, carrinho.ValorTotal, carrinhoViewModel.Pagamento.NomeCartao,
+                carrinhoViewModel.Pagamento.NumeroCartao, carrinhoViewModel.Pagamento.ExpiracaoCartao, carrinhoViewModel.Pagamento.CvvCartao) ;
+
+            await _mediatrHandler.EnviarComando(command);
+
+            if (OperacaoValida())
+            {
+                return Ok("Pedido realizado com sucesso");
+            }
+
+            var erros = await RetornarErros();
+
+            return BadRequest(erros);
+
+        }
     }
 }
