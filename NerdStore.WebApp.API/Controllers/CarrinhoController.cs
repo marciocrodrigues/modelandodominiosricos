@@ -175,6 +175,11 @@ namespace NerdStore.WebApp.API.Controllers
             return Ok(await _pedidoQueries.ObterCarrinhoCliente(ClienteId));
         }
 
+        /// <summary>
+        /// Iniciar pedido
+        /// </summary>
+        /// <param name="carrinhoViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("iniciar-pedido")]
         public async Task<IActionResult> IniciarPedido(CarrinhoViewModel carrinhoViewModel)
@@ -195,6 +200,17 @@ namespace NerdStore.WebApp.API.Controllers
 
             return BadRequest(erros);
 
+        }
+
+        /// <summary>
+        /// Listar os pedidos
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("meus-pedidos")]
+        public async Task<IActionResult> MeusPedidos()
+        {
+            return Ok(await _pedidoQueries.ObterPedidosCliente(ClienteId));
         }
     }
 }
